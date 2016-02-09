@@ -41,6 +41,10 @@ class ArticleBodyTemplate extends Component {
   }
 
   renderContents(generateClassNameList, variantName, components, contents = []) {
+    if (Array.isArray(contents) === false || contents.length === 0) {
+      return []
+    }
+
     return contents.map((contentPiece, key) => {
       if (typeof contentPiece === 'string') {
         // `dangerouslySetInnerHTML` is used here to support `<a>`, `<em>`

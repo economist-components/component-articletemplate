@@ -148,6 +148,7 @@
     "@economist/component-font-neutra2": "^1.0.4",
     "@economist/component-font-officina": "^1.0.0",
     "babel": "^5.8.23",
+    "babel-eslint": "^4.1.8",
     "babelify": "^6.3.0",
     "browser-sync": "^2.8.2",
     "browserify": "^11.0.1",
