@@ -46,7 +46,7 @@ class ArticleBodyTemplate extends Component {
     function scrollToAnchor() {
       const hashParts = window.location.hash.split('#');
       if (hashParts.length >= 2) {
-        const hash = hashParts.slice(-1)[0];
+        const hash = hashParts[hashParts.length - 1];
         const element = document.querySelector(`a[name=${hash}]`);
         if (element) {
           const top = Math.floor(element.getBoundingClientRect().top - scrollToOffset);
