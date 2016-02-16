@@ -40,7 +40,7 @@ class ArticleTemplate extends Component {
         ArticleBody: isComponent,
         ArticleFooter: isComponent,
       }),
-
+      scrollToOffset: PropTypes.number.isRequired,
       id: PropTypes.string.isRequired,
       slug: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -68,7 +68,7 @@ class ArticleTemplate extends Component {
   }
 
   render() {
-    const { variantName, generateClassNameList, sectionName, content } = this.props;
+    const { variantName, generateClassNameList, sectionName, content, scrollToOffset } = this.props;
     const { ArticleHeader, ArticleSubheader, ArticleBody, ArticleFooter } = this.props.components;
     return (
       <ArticleContainer generateClassNameList={generateClassNameList} sectionName={sectionName}>
@@ -78,6 +78,7 @@ class ArticleTemplate extends Component {
           variantName={variantName}
           generateClassNameList={generateClassNameList}
           content={content}
+          scrollToOffset={scrollToOffset}
         />
         <ArticleFooter {...passthroughComponentPropTypesOnly(ArticleFooter, this.props)} />
       </ArticleContainer>

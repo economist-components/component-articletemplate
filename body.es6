@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-
 import { defaultGenerateClassNameList } from './utils';
 
 export function ArticleBodyContainer({ generateClassNameList, children }) {
@@ -12,19 +11,20 @@ export function ArticleBodyContainer({ generateClassNameList, children }) {
     </section>
   );
 }
+
 ArticleBodyContainer.propTypes = {
   generateClassNameList: PropTypes.func,
   children: PropTypes.node,
 };
 
 class ArticleBodyTemplate extends Component {
-
   static get propTypes() {
     return {
       variantName: PropTypes.string,
       generateClassNameList: PropTypes.func,
       components: PropTypes.object,
       content: PropTypes.arrayOf(PropTypes.oneOfType([ PropTypes.string, PropTypes.object ])).isRequired,
+      scrollToOffset: PropTypes.number,
     };
   }
 
@@ -37,12 +37,35 @@ class ArticleBodyTemplate extends Component {
         ArticleSubHead: 'h3',
       },
       content: [],
+      scrollToOffset: 0,
     };
+  }
+
+  componentDidMount() {
+    const { scrollToOffset } = this.props;
+    function scrollToAnchor() {
+      const hashParts = window.location.hash.split('#');
+      if (hashParts.length >= 2) {
+        const hash = hashParts[hashParts.length - 1];
+        const element = document.querySelector(`a[name=${hash}]`);
+        if (element) {
+          const top = Math.floor(element.getBoundingClientRect().top - scrollToOffset);
+          window.scrollTo(0, top);
+        }
+      }
+    }
+
+    if (window && window.location && window.location.hash) {
+      scrollToAnchor();
+      window.onhashchange = scrollToAnchor;
+    } else {
+      window.scrollTo(0, 0);
+    }
   }
 
   renderContents(generateClassNameList, variantName, components, contents = []) {
     if (Array.isArray(contents) === false || contents.length === 0) {
-      return []
+      return [];
     }
 
     return contents.map((contentPiece, key) => {
