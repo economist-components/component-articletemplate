@@ -5,6 +5,7 @@
   "extends": [
     "strict",
     "strict-react",
-    "strict/mocha"
+    "strict/mocha",
+    "strict/test"
   ]
 }

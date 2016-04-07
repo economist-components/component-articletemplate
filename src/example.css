@@ -1,0 +1,9 @@
+@import './';
+
+.article-template__blockquote {
+  display: none;
+}
+
+.Gallery {
+  display: none;
+}

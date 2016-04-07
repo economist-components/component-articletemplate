@@ -1,53 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { defaultGenerateClassNameList } from './utils';
 
-export function ArticleBodyContainer({ generateClassNameList, children }) {
-  return (
-    <section
-      className={generateClassNameList('ArticleTemplate--section').join(' ')}
-      itemProp="articleBody"
-    >
-      {children}
-    </section>
-  );
-}
-
-ArticleBodyContainer.propTypes = {
-  generateClassNameList: PropTypes.func,
-  children: PropTypes.node,
-};
-
-class ArticleBodyTemplate extends Component {
-  static get propTypes() {
-    return {
-      variantName: PropTypes.string,
-      generateClassNameList: PropTypes.func,
-      components: PropTypes.object,
-      content: PropTypes.arrayOf(PropTypes.oneOfType([ PropTypes.string, PropTypes.object ])).isRequired,
-      scrollToOffset: PropTypes.number,
-    };
-  }
-
-  static get defaultProps() {
-    return {
-      generateClassNameList: defaultGenerateClassNameList,
-      components: {
-        Image: 'img',
-        Pullquote: 'blockquote',
-        ArticleSubHead: 'h3',
-      },
-      content: [],
-      scrollToOffset: 0,
-    };
-  }
-
+export default class ArticleBodyTemplate extends React.Component {
   componentDidMount() {
     const { scrollToOffset } = this.props;
     function scrollToAnchor() {
       const hashParts = window.location.hash.split('#');
       if (hashParts.length >= 2) {
         const hash = hashParts[hashParts.length - 1];
-        const element = document.querySelector(`a[name=${hash}]`);
+        const element = document.querySelector(`a[name=${ hash }]`);
         if (element) {
           const top = Math.floor(element.getBoundingClientRect().top - scrollToOffset);
           window.scrollTo(0, top);
@@ -70,19 +31,18 @@ class ArticleBodyTemplate extends Component {
 
     return contents.map((contentPiece, key) => {
       if (typeof contentPiece === 'string') {
-        // `dangerouslySetInnerHTML` is used here to support `<a>`, `<em>`
-        // `<strong>`, etc, tags within the paragraph strings.
-        // See: https://github.com/economist-components/component-articletemplate/pull/11#discussion_r43002610
+        /* eslint-disable react/no-danger, id-match */
         return (
           <p
             key={key}
-            dangerouslySetInnerHTML={{ __html: contentPiece }} // eslint-disable-line react/no-danger, id-match
+            dangerouslySetInnerHTML={{ __html: contentPiece }}
           />
         );
+        /* eslint-enable react/no-danger, id-match */
       }
       const SpecifiedComponent = components[contentPiece.component];
       if (!SpecifiedComponent) {
-        throw new Error(`Unknown component ${contentPiece.component}`);
+        throw new Error(`Unknown component ${ contentPiece.component }`);
       }
       const children = this.renderContents(generateClassNameList, variantName, components, contentPiece.content);
       return (
@@ -101,12 +61,40 @@ class ArticleBodyTemplate extends Component {
   render() {
     const { variantName, generateClassNameList, content, components } = this.props;
     return (
-      <ArticleBodyContainer generateClassNameList={generateClassNameList}>
+      <section
+        className={generateClassNameList('article-template__section').join(' ')}
+        itemProp="articleBody"
+      >
         {this.renderContents(generateClassNameList, variantName, components, content)}
-      </ArticleBodyContainer>
+      </section>
     );
   }
-
 }
 
-export default ArticleBodyTemplate;
+ArticleBodyTemplate.defaultProps = {
+  generateClassNameList: defaultGenerateClassNameList,
+  components: {
+    Image: 'img',
+    Pullquote: 'blockquote',
+    ArticleSubHead: 'h3',
+  },
+  content: [],
+};
+
+if (process.env.NODE_ENV !== 'production') {
+  ArticleBodyTemplate.propTypes = {
+    variantName: React.PropTypes.string,
+    generateClassNameList: React.PropTypes.func,
+    components: React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      React.PropTypes.object,
+    ]),
+    content: React.PropTypes.arrayOf(
+      React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.object,
+      ]),
+    ).isRequired,
+    scrollToOffset: React.PropTypes.number,
+  };
+}
