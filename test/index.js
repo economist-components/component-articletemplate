@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import { ArticleHeaderContainer, ImageContainer } from '../src/header';
+import ArticleHeaderContainer, { ImageContainer } from '../src/header';
 import ArticleFooterContainer from '../src/footer';
 import ArticleSubheaderContainer from '../src/subheader';
 import Articletemplate from '../src';
@@ -69,9 +69,9 @@ describe('Articletemplate', () => {
 
     describe('with components', () => {
       let extendedProps = null;
-      const ArticleHeader = 'h1';
-      const ArticleSubheader = 'h2';
-      const ArticleFooter = 'footer';
+      const ArticleHeader = 'foo';
+      const ArticleSubheader = 'bar';
+      const ArticleFooter = 'baz';
       beforeEach(() => {
         extendedProps = {
           components: {
@@ -86,15 +86,15 @@ describe('Articletemplate', () => {
       });
 
       it('should render a header', () => {
-        articletemplate.should.contain(<ArticleHeader />);
+        articletemplate.should.to.have.descendants('foo');
       });
 
       it('should render a subheader', () => {
-        articletemplate.should.contain(<ArticleSubheader />);
+        articletemplate.should.to.have.descendants('bar');
       });
 
       it('should render a footer', () => {
-        articletemplate.should.contain(<ArticleFooter />);
+        articletemplate.should.to.have.descendants('baz');
       });
     });
   });
