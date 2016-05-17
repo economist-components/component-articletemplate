@@ -112,7 +112,6 @@
     ]
   },
   "dependencies": {
-    "@economist/component-gridcss": "^2.0.0",
     "@economist/component-picture": "^1.2.1",
     "react": "^0.14.8||^15.0.0"
   },
