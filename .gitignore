@@ -1,7 +1,3 @@
-node_modules/
-*.log
-bundle.css
-*.html
 bundle.*
 .DS_Store
 assets/*
@@ -48,4 +44,5 @@ Temporary Items
 lib/
 site/
 site
+*.log
 Icon
