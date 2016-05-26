@@ -1,1 +1,3 @@
-export const defaultGenerateClassNameList = (defaultClassName) => [ defaultClassName ];
+export function defaultGenerateClassNameList(defaultClassName) {
+  return [ defaultClassName ];
+}

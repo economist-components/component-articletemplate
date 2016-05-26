@@ -8,4 +8,4 @@ node_js:
   - stable
 after_success: >-
   travis-after-all && npm run semantic-release && npm run pages -- --repo
-  https://${GH_TOKEN}@github.com/the-economist-editorial/component-articletemplate.git
+  https://${GH_TOKEN}@github.com/economist-components/component-articletemplate.git
